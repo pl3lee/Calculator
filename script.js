@@ -15,6 +15,8 @@ let currentNumber = 0;
 let storedNumber = 0;
 let decimalPoint = false;
 let needReset = false;
+let zeroesBuffered = 0;
+let digitsAfterPoint = 0;
 const digits = {
     one: 1,
     two: 2,
@@ -83,9 +85,20 @@ function updateDisplayDigitClick(e) {
         return;
     }
     let clickedNumber = digits[e.target.id];
+    digitsAfterPoint = findLengthAfterPoint(currentNumber);
     if (!decimalPoint) {
-        currentNumber = Number((currentNumber.toString()).concat(clickedNumber));
+        if ((clickedNumber === 0) && (digitsAfterPoint > 0)) {
+            digitsAfterPoint++;
+            currentNumber = Number((currentNumber.toString()).concat(clickedNumber)).toFixed(digitsAfterPoint);
+        } else {
+            currentNumber = Number((currentNumber.toString()).concat(clickedNumber));
+        }
+        
     } else {
+        if ((clickedNumber === 0) && (digitsAfterPoint > 0)) {
+            digitsAfterPoint++;
+            currentNumber = Number((currentNumber.toString()).concat(".").concat(clickedNumber)).toFixed(digitsAfterPoint);
+        }
         currentNumber = Number((currentNumber.toString()).concat(".").concat(clickedNumber));
         decimalPoint = false;
     }
@@ -93,6 +106,23 @@ function updateDisplayDigitClick(e) {
     e.stopPropagation()
 }
 
+function findLengthAfterPoint(num) {
+    let numString = num.toString();
+    let len = numString.length;
+    let index = 0;
+    for (let i = 0; i < len; i++) {
+        if (numString[i] === '.') {
+            index = i;
+            break
+        }
+    }
+    if (index !== 0) {
+        return len - index - 1;
+    } else {
+        return index;
+    }
+    
+}
 function updateDisplayOperation(e) {
     if (needReset) {
         return;
