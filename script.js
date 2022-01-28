@@ -1,6 +1,11 @@
 const digitButtons = document.querySelectorAll('.digit.keypad-btn');
 const clearButton = document.querySelector('#clear.keypad-btn');
 const deleteButton = document.querySelector('#delete.keypad-btn');
+const plusButton = document.querySelector('#plus.keypad-btn');
+const minusButton = document.querySelector('#minus.keypad-btn');
+const multiplyButton = document.querySelector('#times.keypad-btn');
+const divideButton = document.querySelector('#divide.keypad-btn');
+
 const display = document.querySelector('.display');
 let currentNumber = 0;
 const digits = {
@@ -14,6 +19,22 @@ const digits = {
     eight: 8,
     nine: 9,
     zero: 0
+}
+function plus(n1, n2) {
+    return Number(n1) + Number(n2);
+}
+function subtract(n1, n2) {
+    return Number(n1) - Number(n2);
+}
+function multiply(n2, n2) {
+    return Math.round(Number(n1) * Number(n2) * 100) / 100;
+}
+function divide(n1, n2) {
+    if (n2 === 0) {
+        return false;
+    } else {
+        return Math.round((Number(n1) / Number(n2)) * 100) / 100;
+    }
 }
 function clearDisplay(e) {
     currentNumber = 0;
