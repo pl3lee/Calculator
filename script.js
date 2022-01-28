@@ -5,9 +5,19 @@ const plusButton = document.querySelector('#plus.keypad-btn');
 const minusButton = document.querySelector('#minus.keypad-btn');
 const multiplyButton = document.querySelector('#times.keypad-btn');
 const divideButton = document.querySelector('#divide.keypad-btn');
-
 const display = document.querySelector('.display');
+
+
+let bufferedOperation = "p";
 let currentNumber = 0;
+let storedNumber = 0;
+let operations = {
+    p: "plus",
+    s: "subtract",
+    m: "multiply",
+    d: "divide",
+    e: "exponent"
+}
 const digits = {
     one: 1,
     two: 2,
@@ -35,6 +45,13 @@ function divide(n1, n2) {
     } else {
         return Math.round((Number(n1) / Number(n2)) * 100) / 100;
     }
+}
+function exponent(n1, n2) {
+    let tempProduct = 1;
+    for (let i = 0; i < power; i++) {
+        tempProduct *= Number(num);
+    }
+    return Math.round(tempProduct * 100) / 100;
 }
 function clearDisplay(e) {
     currentNumber = 0;
