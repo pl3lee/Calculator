@@ -1,11 +1,9 @@
 const digitButtons = document.querySelectorAll('.digit.keypad-btn');
 const clearButton = document.querySelector('#clear.keypad-btn');
 const deleteButton = document.querySelector('#delete.keypad-btn');
-const plusButton = document.querySelector('#plus.keypad-btn');
-const minusButton = document.querySelector('#minus.keypad-btn');
-const multiplyButton = document.querySelector('#times.keypad-btn');
-const divideButton = document.querySelector('#divide.keypad-btn');
+const operationButtons = document.querySelectorAll('.operation.keypad-btn');
 const display = document.querySelector('.display');
+const storedNumberDisplay = document.querySelector('.storedNumberDisplay');
 
 
 let bufferedOperation = "p";
@@ -48,14 +46,16 @@ function divide(n1, n2) {
 }
 function exponent(n1, n2) {
     let tempProduct = 1;
-    for (let i = 0; i < power; i++) {
-        tempProduct *= Number(num);
+    for (let i = 0; i < n2; i++) {
+        tempProduct *= Number(n1);
     }
     return Math.round(tempProduct * 100) / 100;
 }
 function clearDisplay(e) {
     currentNumber = 0;
+    storedNumber = 0;
     display.textContent = currentNumber.toString();
+    storedNumberDisplay = storedNumber.toString();
 }
 function deleteDigit(e) {
     let temp = currentNumber.toString().slice(0, -1);
@@ -69,6 +69,35 @@ function updateDisplayDigitClick(e) {
     display.textContent = currentNumber.toString();
     e.stopPropagation()
 }
+function updateDisplayOperation(e) {
+    if (bufferedOperation === 'p') {
+        currentNumber = plus(storedNumber, currentNumber);
+    } else if (bufferedOperation === 's') {
+        currentNumber = subtract(storedNumber, currentNumber);
+    } else if (bufferedOperation === 'm') {
+        currentNumber = multiply(storedNumber, currentNumber);
+    } else if (bufferedOperation === 'd') {
+        currentNumber = divide(storedNumber, currentNumber);
+    } else {
+        currentNumber = exponent(storedNumber, currentNumber);
+    }
+    storedNumber = currentNumber;
+    console.log(storedNumber);
+    
+    currentNumber = 0;
+    
+    if (e.target.id === 'equal') {
+        bufferedOperation = 'p';
+        display.textContent = storedNumber.toString();
+        storedNumber = 0;
+    } else {
+        bufferedOperation = e.target.id;
+        display.textContent = currentNumber.toString();
+    }
+    storedNumberDisplay.textContent = storedNumber.toString();
+    
+}
 digitButtons.forEach(digitButton => {digitButton.addEventListener('click', updateDisplayDigitClick)});
 clearButton.addEventListener('click', clearDisplay);
 deleteButton.addEventListener('click', deleteDigit);
+operationButtons.forEach(operationButton => {operationButton.addEventListener('click', updateDisplayOperation)})
