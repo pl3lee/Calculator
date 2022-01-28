@@ -1,0 +1,97 @@
+* {
+    /* border: solid red; */
+}
+body {
+    background-color: #121212;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.calculator-container {
+    display: flex;
+    width: 700px;
+    height: 800px;
+    flex-direction: column;
+    background-color: #8f9294;
+    border-style:outset;
+    border-color: #75787a;
+    border-radius: 50px;
+    border-width: 10px;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+    gap: 10px;
+}
+.logo-solar-container {
+    height: 10%;
+    display: flex;
+    width: 80%;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.logo-container {
+    width: 50%;
+}
+.logo {
+    font-size: 40px;
+    font-weight: bold;
+}
+.model {
+    font-size: 20px;
+}
+.solar-container {
+    width: 50%;
+}
+.solar-panel {
+    height: 80%;
+    background-color: #252221;
+    border-radius: 10px;
+}
+.two-way-power {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+.display-container {
+    height: 20%;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #62656d;
+    border-radius: 30px;
+}
+.display {
+    width: 90%;
+    height: 90%;
+    background-color: #d4e2e3;
+    border-radius: 20px;
+}
+.calculator-main-container {
+    height: 80%;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+/* .keypad-container {
+    height: 100%;
+    width: 100%;
+} */
+.keypad-btn {
+    width: 22%;
+    height: 15%;
+    margin-top: -5px;
+    margin-bottom: -5px;
+    background-color: #3d3e44;
+}
+#zero.keypad-btn {
+    width: 46%;
+}
+/* #plus.keypad-btn {
+    height: 40%;
+} */
