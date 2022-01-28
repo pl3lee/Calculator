@@ -2,6 +2,7 @@ const digitButtons = document.querySelectorAll('.digit.keypad-btn');
 const clearButton = document.querySelector('#clear.keypad-btn');
 const deleteButton = document.querySelector('#delete.keypad-btn');
 const operationButtons = document.querySelectorAll('.operation.keypad-btn');
+const dotButton = document.querySelector('#dot.keypad-btn');
 const display = document.querySelector('.display');
 const storedNumberDisplay = document.querySelector('.storedNumberDisplay');
 
@@ -9,6 +10,8 @@ const storedNumberDisplay = document.querySelector('.storedNumberDisplay');
 let bufferedOperation = "p";
 let currentNumber = 0;
 let storedNumber = 0;
+let decimalPoint = false;
+let needReset = false;
 let operations = {
     p: "plus",
     s: "subtract",
@@ -34,7 +37,9 @@ function plus(n1, n2) {
 function subtract(n1, n2) {
     return Number(n1) - Number(n2);
 }
-function multiply(n2, n2) {
+function multiply(n1, n2) {
+    console.log('mult')
+    console.log(n1);
     return Math.round(Number(n1) * Number(n2) * 100) / 100;
 }
 function divide(n1, n2) {
@@ -54,22 +59,38 @@ function exponent(n1, n2) {
 function clearDisplay(e) {
     currentNumber = 0;
     storedNumber = 0;
+    bufferedOperation = 'p';
     display.textContent = currentNumber.toString();
-    storedNumberDisplay = storedNumber.toString();
+    storedNumberDisplay.textContent = storedNumber.toString();
+    needReset = false;
 }
 function deleteDigit(e) {
+    if (needReset) {
+        return;
+    }
     let temp = currentNumber.toString().slice(0, -1);
     temp = Number(temp)
     currentNumber = temp
     display.textContent = currentNumber.toString();
 }
 function updateDisplayDigitClick(e) {
+    if (needReset) {
+        return;
+    }
     let clickedNumber = digits[e.target.id];
-    currentNumber = Number((currentNumber.toString()).concat(clickedNumber));
+    if (!decimalPoint) {
+        currentNumber = Number((currentNumber.toString()).concat(clickedNumber));
+    } else {
+        currentNumber = Number((currentNumber.toString()).concat(".").concat(clickedNumber));
+        decimalPoint = false;
+    }
     display.textContent = currentNumber.toString();
     e.stopPropagation()
 }
 function updateDisplayOperation(e) {
+    if (needReset) {
+        return;
+    }
     if (bufferedOperation === 'p') {
         currentNumber = plus(storedNumber, currentNumber);
     } else if (bufferedOperation === 's') {
@@ -81,11 +102,15 @@ function updateDisplayOperation(e) {
     } else {
         currentNumber = exponent(storedNumber, currentNumber);
     }
+    if (currentNumber === false) {
+        display.textContent = 'Please do not divide by zero. Press clear to reset.';
+        storedNumberDisplay.textContent = 'Please do not divide by zero. Press clear to reset.';
+        needReset = true;
+        return;
+    }
     storedNumber = currentNumber;
     console.log(storedNumber);
-    
     currentNumber = 0;
-    
     if (e.target.id === 'equal') {
         bufferedOperation = 'p';
         display.textContent = storedNumber.toString();
@@ -95,9 +120,17 @@ function updateDisplayOperation(e) {
         display.textContent = currentNumber.toString();
     }
     storedNumberDisplay.textContent = storedNumber.toString();
-    
+}
+function decimalPointClicked(e) {
+    if (needReset) {
+        return;
+    }
+    if (!currentNumber.toString().includes('.')) {
+        decimalPoint = true;
+    } 
 }
 digitButtons.forEach(digitButton => {digitButton.addEventListener('click', updateDisplayDigitClick)});
 clearButton.addEventListener('click', clearDisplay);
 deleteButton.addEventListener('click', deleteDigit);
 operationButtons.forEach(operationButton => {operationButton.addEventListener('click', updateDisplayOperation)})
+dotButton.addEventListener('click', decimalPointClicked);
