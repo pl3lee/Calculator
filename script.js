@@ -98,8 +98,12 @@ function updateDisplayDigitClick(e) {
         if ((clickedNumber === 0) && (digitsAfterPoint > 0)) {
             digitsAfterPoint++;
             currentNumber = Number((currentNumber.toString()).concat(".").concat(clickedNumber)).toFixed(digitsAfterPoint);
+        } else if ((clickedNumber === 0) && (digitsAfterPoint === 0)) {
+            currentNumber = Number((currentNumber.toString()).concat(".").concat(clickedNumber)).toFixed(1);
+        } else {
+            currentNumber = Number((currentNumber.toString()).concat(".").concat(clickedNumber))
         }
-        currentNumber = Number((currentNumber.toString()).concat(".").concat(clickedNumber));
+        
         decimalPoint = false;
     }
     display.textContent = currentNumber.toString();
