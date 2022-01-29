@@ -11,4 +11,5 @@ This is my third webpage created using HTML, CSS, and JavaScript. This is a basi
 - [ ] Make the buttons have pop when pressed.
 - [ ] Add some sound to the calculator
 - [ ] Solve the problem where pressing the operation buttons (+, -, \*, /, EXP) one after another without pressing any digit buttons would cause some errors.
+- [ ] Keyboard support
 
